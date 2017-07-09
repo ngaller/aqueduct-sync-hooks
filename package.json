@@ -1,7 +1,7 @@
 {
   "name": "aqueduct-sync-hooks",
   "version": "1.0.0",
-  "description": "Add hooks on local Meteor collections based on pipe configuration.",
+  "description": "Meteor collection hooks for Aqueduct sync",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +9,6 @@
   "author": "Nicolas Galler",
   "license": "ISC",
   "dependencies": {
-    "aqueduct-pipe-joints": "github:nicocrm/aqueduct-pipe-joints"
+    "aqueduct-pipe-joints": "^1.0.0"
   }
 }
