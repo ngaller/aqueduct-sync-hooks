@@ -1,14 +1,21 @@
+import {Mongo} from 'meteor/mongo'
+
+const cleanId = doc => {
+  const c = {...doc}
+  delete c._id
+  return c
+}
+
 module.exports = function addSyncHooks(collection, type, queue, onError) {
   collection.after.insert(function(userId, doc) {
-    console.log('Got an insert', doc)
     queue.add({
-      type: type, data: doc, identifier: this._id, action: 'create'
+      type: type, data: cleanId(doc), identifier: String(doc._id), action: 'create'
     }).catch(onError)
   })
   collection.after.update(function(userId, doc, fieldNames, modifier) {
     if(modifier.$set) {
       queue.add({
-        type: type, data: modifier.$set, identifier: doc._id, action: 'update'
+        type: type, data: modifier.$set, identifier: String(doc._id), action: 'update'
       }).catch(onError)
     }
   })

@@ -1,6 +1,6 @@
 Package.describe({
   name: 'nicocrm:aqueduct-sync-hooks',
-  version: '0.0.1',
+  version: '0.0.3',
   // Brief, one-line summary of the package.
   summary: 'Used to add hooks to the meteor collections, for Aqueduct Sync.',
   // URL to the Git repository containing the source code for this package.
@@ -14,6 +14,8 @@ Npm.depends({'aqueduct-pipe-joints': '1.0.4'})
 
 Package.onUse(function(api) {
   api.versionsFrom('1.5');
+  // having some issues with more recent versions, fix to this version for now
+  api.use('matb33:collection-hooks@0.8.4');
   api.use('ecmascript');
   api.mainModule('index.js');
 });
