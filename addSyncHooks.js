@@ -1,5 +1,6 @@
 module.exports = function addSyncHooks(collection, type, queue, onError) {
   collection.after.insert(function(userId, doc) {
+    console.log('Got an insert', doc)
     queue.add({
       type: type, data: doc, identifier: this._id, action: 'create'
     }).catch(onError)
