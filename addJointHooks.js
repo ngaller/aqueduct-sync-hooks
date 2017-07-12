@@ -1,9 +1,9 @@
 const jointBuilder = require('aqueduct-pipe-joints')
 
 module.exports = function addJointHooks(childCollection, parentCollection, jointConfig) {
-  const joint = jointBuilder({childCollection, parentCollection, ...jointConfig})
+  const joint = jointBuilder(jointConfig)
   const addHook = (hook, handler) => {
-    if(handler)
+    if (handler)
       hook((userId, doc) => handler(doc))
   }
   addHook(parentCollection.after.insert, joint.onParentInserted)
