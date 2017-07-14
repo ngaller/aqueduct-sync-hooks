@@ -7,9 +7,10 @@ const cleanId = doc => {
   return c
 }
 
+// transform Meteor MongoID into a real mongo id atom
 const getMongoId = id => new mongodb.ObjectID(id.toHexString())
 
-module.exports = function addSyncHooks(collection, type, queue, onError) {
+module.exports = function addSyncHooks(collection, keyField, type, queue, onError) {
   collection.after.insert(function(userId, doc) {
     queue.add({
       type: type, data: cleanId(doc), identifier: getMongoId(doc._id), action: 'create'
@@ -18,7 +19,10 @@ module.exports = function addSyncHooks(collection, type, queue, onError) {
   collection.after.update(function(userId, doc, fieldNames, modifier) {
     if(modifier.$set) {
       queue.add({
-        type: type, data: modifier.$set, identifier: getMongoId(doc._id), action: 'update'
+        type: type, data: {
+          ...modifier.$set,
+          [keyField]: doc[keyField]
+        }, identifier: getMongoId(doc._id), action: 'update'
       }).catch(onError)
     }
   })
