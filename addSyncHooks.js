@@ -10,6 +10,7 @@ const cleanId = doc => {
 // transform Meteor MongoID into a real mongo id atom
 const getMongoId = id => new mongodb.ObjectID(id.toHexString())
 
+// add hooks to generate messages in the MongoDB queue when records are modified locally
 module.exports = function addSyncHooks(collection, keyField, type, queue, onError) {
   collection.after.insert(function(userId, doc) {
     queue.add({
