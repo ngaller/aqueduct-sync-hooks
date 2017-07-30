@@ -1,5 +1,5 @@
 import {MongoInternals} from 'meteor/mongo'
-const mongodb = MongoInternals.NpmModules.mongodb.module
+// const mongodb = MongoInternals.NpmModules.mongodb.module
 
 const cleanId = doc => {
   const c = {...doc}
@@ -8,7 +8,9 @@ const cleanId = doc => {
 }
 
 // transform Meteor MongoID into a real mongo id atom
-const getMongoId = id => new mongodb.ObjectID(id.toHexString())
+// (this is disabled right now... we just use string as _id)
+// const getMongoId = id => new mongodb.ObjectID(id.toHexString())
+const getMongoId = id => id
 
 // add hooks to generate messages in the MongoDB queue when records are modified locally
 module.exports = function addSyncHooks(collection, keyField, type, queue, onError) {
