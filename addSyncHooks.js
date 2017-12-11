@@ -11,7 +11,7 @@ const cleanId = doc => {
 // remove dotted properties
 const cleanSubProperties = doc => {
   return Object.keys(doc).reduce((acc, k) =>
-    k.indexOf('.') < 0 ? Object.assign(acc, doc[k]) : acc, {})
+    k.indexOf('.') < 0 ? Object.assign(acc, { [k]: doc[k] }) : acc, {})
 }
 
 const cleanDocument = doc => cleanSubProperties(cleanId(doc))
