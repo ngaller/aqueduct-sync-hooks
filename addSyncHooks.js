@@ -8,13 +8,10 @@ const cleanId = doc => {
   return c
 }
 
-// remove dotted properties
-const cleanSubProperties = doc => {
+const cleanDottedProperties = doc => {
   return Object.keys(doc).reduce((acc, k) =>
     k.indexOf('.') < 0 ? Object.assign(acc, { [k]: doc[k] }) : acc, {})
 }
-
-const cleanDocument = doc => cleanSubProperties(cleanId(doc))
 
 // transform Meteor MongoID into a real mongo id atom
 // (this is disabled right now... we just use string as _id)
@@ -26,14 +23,14 @@ module.exports = function addSyncHooks(collection, keyField, type, queue, onErro
   collection.after.insert(function(userId, doc) {
     queue.add({
       type: type,
-      data: JSON.stringify(cleanDocument(doc)),
+      data: JSON.stringify(cleanId(doc)),
       identifier: getMongoId(doc._id),
       action: 'create'
     }).catch(onError)
   })
   collection.after.update(function(userId, doc, fieldNames, modifier) {
     if(modifier.$set) {
-      const updateDocument = cleanDocument(modifier.$set)
+      const updateDocument = cleanDottedProperties(cleanId(modifier.$set))
       if(Object.keys(updateDocument).length === 0) {
         // an empty update (they are probably just making updates to the sub properties)
         return
