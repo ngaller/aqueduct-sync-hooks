@@ -1,6 +1,6 @@
 Package.describe({
   name: 'nicocrm:aqueduct-sync-hooks',
-  version: '0.0.12',
+  version: '0.0.14',
   // Brief, one-line summary of the package.
   summary: 'Used to add hooks to the meteor collections, for Aqueduct Sync.',
   // URL to the Git repository containing the source code for this package.
